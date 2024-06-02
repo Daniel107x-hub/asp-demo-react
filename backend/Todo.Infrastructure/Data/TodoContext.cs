@@ -18,6 +18,14 @@ namespace Todo.Infrastructure.Data
             builder.Entity<TaskItem>()
                 .HasMany(e => e.categories)
                 .WithMany();
+
+            builder.Entity<User>()
+                .HasIndex(e => e.userName)
+                .IsUnique(true);
+
+            builder.Entity<User>()
+                .HasIndex(e => e.email)
+                .IsUnique(true);
         }
     
     }

@@ -78,10 +78,13 @@ namespace Todo.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-            _context.User.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.userId }, user);
+            try{
+                _context.User.Add(user);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetUser", new { id = user.userId }, user);
+            }catch(Exception e){
+                return BadRequest("Error creating user with message: " + e.Message);
+            }
         }
 
         // DELETE: api/User/5
