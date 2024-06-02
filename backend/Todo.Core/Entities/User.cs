@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Todo.Core.Entities
 {
@@ -15,11 +15,15 @@ namespace Todo.Core.Entities
             this.updatedAt = DateTime.Now;
         }
 
+        [Key]
         public int userId { get; set; }
         public string userName { get; set; }
         public string password { get; set; }
         public string email { get; set; }
         public DateTime createdAt { get; set; }
         public DateTime updatedAt { get; set; }
+        public ICollection<TaskItem> tasks { get; } = new List<TaskItem>();
+        public ICollection<Category> categories { get; } = new List<Category>();
+        public ICollection<Priority> priorities { get; } = new List<Priority>();
     }
 }

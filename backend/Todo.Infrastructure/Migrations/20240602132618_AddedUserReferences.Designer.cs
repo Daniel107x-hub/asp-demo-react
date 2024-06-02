@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Todo.Infrastructure.Data;
@@ -11,9 +12,11 @@ using Todo.Infrastructure.Data;
 namespace Todo.Infrastructure.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    partial class TodoContextModelSnapshot : ModelSnapshot
+    [Migration("20240602132618_AddedUserReferences")]
+    partial class AddedUserReferences
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,19 +25,19 @@ namespace Todo.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CategoryTaskItem", b =>
+            modelBuilder.Entity("CategoryTask", b =>
                 {
-                    b.Property<int>("TaskItemtaskId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("categoriescategoryId")
                         .HasColumnType("integer");
 
-                    b.HasKey("TaskItemtaskId", "categoriescategoryId");
+                    b.Property<int>("taskId")
+                        .HasColumnType("integer");
 
-                    b.HasIndex("categoriescategoryId");
+                    b.HasKey("categoriescategoryId", "taskId");
 
-                    b.ToTable("CategoryTaskItem");
+                    b.HasIndex("taskId");
+
+                    b.ToTable("CategoryTask");
                 });
 
             modelBuilder.Entity("Todo.Core.Entities.Category", b =>
@@ -102,7 +105,7 @@ namespace Todo.Infrastructure.Migrations
                     b.ToTable("Priority");
                 });
 
-            modelBuilder.Entity("Todo.Core.Entities.TaskItem", b =>
+            modelBuilder.Entity("Todo.Core.Entities.Task", b =>
                 {
                     b.Property<int>("taskId")
                         .ValueGeneratedOnAdd()
@@ -147,7 +150,7 @@ namespace Todo.Infrastructure.Migrations
 
                     b.HasIndex("userId");
 
-                    b.ToTable("TaskItem");
+                    b.ToTable("Task");
                 });
 
             modelBuilder.Entity("Todo.Core.Entities.User", b =>
@@ -181,17 +184,17 @@ namespace Todo.Infrastructure.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("CategoryTaskItem", b =>
+            modelBuilder.Entity("CategoryTask", b =>
                 {
-                    b.HasOne("Todo.Core.Entities.TaskItem", null)
-                        .WithMany()
-                        .HasForeignKey("TaskItemtaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Todo.Core.Entities.Category", null)
                         .WithMany()
                         .HasForeignKey("categoriescategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Todo.Core.Entities.Task", null)
+                        .WithMany()
+                        .HasForeignKey("taskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -214,7 +217,7 @@ namespace Todo.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Todo.Core.Entities.TaskItem", b =>
+            modelBuilder.Entity("Todo.Core.Entities.Task", b =>
                 {
                     b.HasOne("Todo.Core.Entities.Priority", "priority")
                         .WithMany("tasks")

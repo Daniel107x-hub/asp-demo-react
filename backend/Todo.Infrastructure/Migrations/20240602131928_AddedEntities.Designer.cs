@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Todo.Infrastructure.Data;
@@ -11,9 +12,11 @@ using Todo.Infrastructure.Data;
 namespace Todo.Infrastructure.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    partial class TodoContextModelSnapshot : ModelSnapshot
+    [Migration("20240602131928_AddedEntities")]
+    partial class AddedEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,19 +25,19 @@ namespace Todo.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CategoryTaskItem", b =>
+            modelBuilder.Entity("CategoryTask", b =>
                 {
-                    b.Property<int>("TaskItemtaskId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("categoriescategoryId")
                         .HasColumnType("integer");
 
-                    b.HasKey("TaskItemtaskId", "categoriescategoryId");
+                    b.Property<int>("taskId")
+                        .HasColumnType("integer");
 
-                    b.HasIndex("categoriescategoryId");
+                    b.HasKey("categoriescategoryId", "taskId");
 
-                    b.ToTable("CategoryTaskItem");
+                    b.HasIndex("taskId");
+
+                    b.ToTable("CategoryTask");
                 });
 
             modelBuilder.Entity("Todo.Core.Entities.Category", b =>
@@ -70,39 +73,10 @@ namespace Todo.Infrastructure.Migrations
 
                     b.HasKey("categoryId");
 
-                    b.HasIndex("userId");
-
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("Todo.Core.Entities.Priority", b =>
-                {
-                    b.Property<int>("priorityId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("priorityId"));
-
-                    b.Property<string>("color")
-                        .HasColumnType("text");
-
-                    b.Property<string>("icon")
-                        .HasColumnType("text");
-
-                    b.Property<int>("level")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("userId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("priorityId");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("Priority");
-                });
-
-            modelBuilder.Entity("Todo.Core.Entities.TaskItem", b =>
+            modelBuilder.Entity("Todo.Core.Entities.Task", b =>
                 {
                     b.Property<int>("taskId")
                         .ValueGeneratedOnAdd()
@@ -143,11 +117,9 @@ namespace Todo.Infrastructure.Migrations
 
                     b.HasKey("taskId");
 
-                    b.HasIndex("priorityId");
-
                     b.HasIndex("userId");
 
-                    b.ToTable("TaskItem");
+                    b.ToTable("Task");
                 });
 
             modelBuilder.Entity("Todo.Core.Entities.User", b =>
@@ -181,67 +153,34 @@ namespace Todo.Infrastructure.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("CategoryTaskItem", b =>
+            modelBuilder.Entity("CategoryTask", b =>
                 {
-                    b.HasOne("Todo.Core.Entities.TaskItem", null)
-                        .WithMany()
-                        .HasForeignKey("TaskItemtaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Todo.Core.Entities.Category", null)
                         .WithMany()
                         .HasForeignKey("categoriescategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("Todo.Core.Entities.Category", b =>
-                {
-                    b.HasOne("Todo.Core.Entities.User", null)
-                        .WithMany("categories")
-                        .HasForeignKey("userId")
+                    b.HasOne("Todo.Core.Entities.Task", null)
+                        .WithMany()
+                        .HasForeignKey("taskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Todo.Core.Entities.Priority", b =>
+            modelBuilder.Entity("Todo.Core.Entities.Task", b =>
                 {
-                    b.HasOne("Todo.Core.Entities.User", null)
-                        .WithMany("priorities")
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Todo.Core.Entities.TaskItem", b =>
-                {
-                    b.HasOne("Todo.Core.Entities.Priority", "priority")
-                        .WithMany("tasks")
-                        .HasForeignKey("priorityId");
-
                     b.HasOne("Todo.Core.Entities.User", "user")
                         .WithMany("tasks")
                         .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("priority");
-
                     b.Navigation("user");
-                });
-
-            modelBuilder.Entity("Todo.Core.Entities.Priority", b =>
-                {
-                    b.Navigation("tasks");
                 });
 
             modelBuilder.Entity("Todo.Core.Entities.User", b =>
                 {
-                    b.Navigation("categories");
-
-                    b.Navigation("priorities");
-
                     b.Navigation("tasks");
                 });
 #pragma warning restore 612, 618
