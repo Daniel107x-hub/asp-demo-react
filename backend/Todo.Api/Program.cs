@@ -18,6 +18,21 @@ builder.Services.AddDbContext<TodoContext>();
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<TodoContext>();
 
+// Add CORS for testing
+var specificOrigins = "AppOrigins";
+if(builder.Environment.IsDevelopment())
+{
+    builder.Services.AddCors(options => {
+        options.AddPolicy(name: specificOrigins,
+            policy => {
+                policy.WithOrigins("http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            }
+        );
+    });
+}
+
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -26,6 +41,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(specificOrigins);
 }
 
 app.UseHttpsRedirection();
