@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ namespace Todo.Api.Controllers
 
         // GET: api/TaskItem
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<TaskItem>>> GetTaskItem()
         {
             return await _context.TaskItem.ToListAsync();

@@ -1,11 +1,12 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Todo.Core.Entities;
 
 namespace Todo.Infrastructure.Data
 {
-    public class TodoContext : DbContext
+    public class TodoContext : IdentityDbContext<IdentityUser>
     {
-        public DbSet<User> User { get; set; }
         public DbSet<TaskItem> TaskItem { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<Priority> Priority { get; set; }
@@ -15,17 +16,10 @@ namespace Todo.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
             builder.Entity<TaskItem>()
                 .HasMany(e => e.categories)
                 .WithMany();
-
-            builder.Entity<User>()
-                .HasIndex(e => e.userName)
-                .IsUnique(true);
-
-            builder.Entity<User>()
-                .HasIndex(e => e.email)
-                .IsUnique(true);
         }
     
     }
