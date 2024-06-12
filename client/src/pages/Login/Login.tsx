@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import styles from './Login.module.css'
 import Card from '../../components/Card/Card'
-import { login } from '../../services/Login/LoginService'
+import { login } from '../../services/User/UserService'
+import { Link } from 'react-router-dom'
 
 type Props = {}
 
@@ -20,8 +21,8 @@ const Login = (props: Props) => {
   }
     
     return (
-      <main>
       <Card className={styles.formContainer}>
+        <h1>Login</h1>
         <form>
           <label htmlFor="email">Email</label>
           <input type="email" name="email" id="email" value={email} onChange={e => setEmail(e.currentTarget.value)}/>
@@ -29,8 +30,8 @@ const Login = (props: Props) => {
           <input type="password" name="password" id="password" value={password} onChange={e => setPassword(e.currentTarget.value)}/>
           <button type="submit" onClick={handleLogin}>Login</button>
         </form>
+        <Link to="/">Not a user?</Link>
       </Card>
-    </main>
   )
 }
 
