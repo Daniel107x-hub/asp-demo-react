@@ -1,26 +1,12 @@
 import { useEffect, useState } from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import { verifyAuthentication } from "../../services/User/UserService";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../app/store";
+import { setAuthenticated } from "../../app/features/Auth/authSlice";
 
 const PrivateRoute = () => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-    useEffect(() => {
-        setIsLoading(true);
-        verifyAuthentication()
-        .then(response => {
-            if(response.status === 200) setIsAuthenticated(true);
-        })
-        .catch(err => {
-            return <Navigate to='/login' />
-        })
-        .finally(() => {
-            setIsLoading(false);
-        });
-    }, []);
-
-    if(isLoading) return <h1>Loading</h1>
+    const isAuthenticated = useSelector((state:RootState)=> state.auth.isAuthenticated);
     if(!isAuthenticated) return <Navigate to='/login' />
     return <Outlet/>
 }

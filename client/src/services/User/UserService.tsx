@@ -1,7 +1,9 @@
 import axios from "axios";
 
+axios.defaults.withCredentials = true;
+
 const login = (email: String, password: String) => {
-    return axios.post('https://localhost:5105/login?useCookies=true&useSessionCookies=true', { email, password});
+    return axios.post('https://localhost:5105/login?useCookies=true&useSessionCookies=true', { email, password, withCredentials:false});
 }
 
 const register  = (request: RegisterRequest) => {
@@ -9,7 +11,7 @@ const register  = (request: RegisterRequest) => {
 }
 
 const verifyAuthentication = async () => {
-    return axios.get('https://localhost:5105/manage/info', {withCredentials:true})
+    return axios.get('https://localhost:5105/manage/info')
 }
 
 type RegisterRequest = {
