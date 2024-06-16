@@ -17,7 +17,6 @@ const Login = () => {
     e.preventDefault();
     login(email, password)
     .then(response => {
-      console.log(response.status);
       if(response.status === 200) {
         dispatch(setAuthenticated(true));
         return navigate('/todo');
@@ -37,9 +36,11 @@ const Login = () => {
         <input type="password" name="password" id="password" value={password} onChange={e => setPassword(e.currentTarget.value)}/>
         <button type="submit" onClick={handleLogin}>Login</button>
       </form>
-      <Link to="/">Not a user?</Link>
+      <Link to="/register">Not a user?</Link>
     </Card>
   )
 }
 
 export default Login;
+
+//TODO: In case the user doesn't have permission to view a page, backend will return unauthorized. Return error page on client for not authorized and a link to login again or go back

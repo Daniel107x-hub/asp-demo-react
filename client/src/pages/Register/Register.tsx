@@ -3,18 +3,19 @@ import styles from './Register.module.css'
 import Card from '../../components/Card/Card'
 import { register } from '../../services/User/UserService'
 import { toast } from 'react-toastify'
-import { Link, useNavigate } from 'react-router-dom'
-
-type Props = {}
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../app/store'
 
 const Register = () => {
     const navigate = useNavigate();
-
     const [userData, setUserData] = useState({
         email: '',
         userName: '',
         password: ''
     });
+
+    const isAuthenticated = useSelector((state:RootState) => state.auth.isAuthenticated);
 
     const canSubmit = userData.email && userData.userName && userData.password;
 
@@ -42,7 +43,7 @@ const Register = () => {
             })
         });
     }
-
+    if(isAuthenticated) return <Navigate to={'/todo'}/>
     return (
         <Card>
             <h1 className={styles.title}>Register</h1>

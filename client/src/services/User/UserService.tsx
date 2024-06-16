@@ -6,6 +6,10 @@ const login = (email: String, password: String) => {
     return axios.post('https://localhost:5105/login?useCookies=true&useSessionCookies=true', { email, password, withCredentials:false});
 }
 
+const logout = () => {
+    return axios.post('https://localhost:5105/logout', {});
+}
+
 const register  = (request: RegisterRequest) => {
     return axios.post('https://localhost:5105/register', request);
 }
@@ -23,5 +27,6 @@ type RegisterRequest = {
 export {
     login,
     register,
-    verifyAuthentication
+    verifyAuthentication,
+    logout
 };

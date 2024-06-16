@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import {RouterProvider, createBrowserRouter} from 'react-router-dom';
+import {Navigate, RouterProvider, createBrowserRouter} from 'react-router-dom';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import { ToastContainer } from 'react-toastify';
@@ -7,6 +7,10 @@ import Todo from './pages/Todo/Todo';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <Navigate to={'/login'}/>
+    },
     {
         path:'/login',
         element: <Login/>

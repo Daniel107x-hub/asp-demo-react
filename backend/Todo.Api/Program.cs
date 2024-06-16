@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Todo.Infrastructure.Data;
@@ -44,6 +45,20 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.UseCors(specificOrigins);
 }
+
+// Add logout endpoint
+app.MapPost("/logout", async (SignInManager<IdentityUser> signInManager, [FromBody] object empty) =>
+    {
+        if (empty != null)
+        {
+            await signInManager.SignOutAsync();
+            return Results.Ok();
+        }
+        return Results.Unauthorized();
+    }
+)
+.WithOpenApi()
+.RequireAuthorization();
 
 app.UseHttpsRedirection();
 
