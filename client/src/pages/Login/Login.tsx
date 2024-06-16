@@ -2,21 +2,24 @@ import React, {useState} from 'react'
 import styles from './Login.module.css'
 import Card from '../../components/Card/Card'
 import { login } from '../../services/User/UserService'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 type Props = {}
 
 const Login = (props: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     login(email, password)
     .then(response => {
-      console.log(response);
+      console.log(response.status);
+      if(response.status === 200) return navigate('/todo');
+      // TODO: On each protected view, check the user is authenticated by callign info endpoint
     })
     .catch(error => {
-      console.log(error);
+      // console.log(error);
     });
   }
     
