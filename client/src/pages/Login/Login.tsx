@@ -14,6 +14,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state:RootState) => state.auth.isAuthenticated);
+  const canLogin = email && password;
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     login(email, password)
@@ -37,7 +38,7 @@ const Login = () => {
         <input type="email" name="email" id="email" value={email} onChange={e => setEmail(e.currentTarget.value)}/>
         <label htmlFor="password">Password</label>
         <input type="password" name="password" id="password" value={password} onChange={e => setPassword(e.currentTarget.value)} autoComplete='on password'/>
-        <button type="submit" onClick={handleLogin}>Login</button>
+        <button type="submit" onClick={handleLogin} disabled={!canLogin}>Login</button>
       </form>
       <Link to="/register">Not a user?</Link>
     </Card>
