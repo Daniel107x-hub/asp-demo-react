@@ -4,14 +4,13 @@
     align-items: center;
     justify-content: center;
     border-radius: 1em;
-    width: 200px;
-    height: 200px;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
     overflow: hidden;
-}
+    background-color: white;
 
-img{
-    width: 20%;
-    height: 20%;
-    object-fit: cover;
+    position: absolute;
+    padding: 5rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

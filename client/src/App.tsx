@@ -1,14 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Card from './components/Card/Card';
+import {Navigate, RouterProvider, createBrowserRouter} from 'react-router-dom';
+import Login from './pages/Login/Login';
+import Register from './pages/Register/Register';
+import { ToastContainer } from 'react-toastify';
+import Todo from './pages/Todo/Todo';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
-function App() {
+const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <Navigate to={'/login'}/>
+    },
+    {
+        path:'/login',
+        element: <Login/>
+    },
+    {
+        path:'/register',
+        element: <Register/>
+    },
+    {
+        path:'/todo',
+        element: <PrivateRoute/>,
+        children:[
+            {
+                path:'',
+                element:<Todo/>
+            }
+        ]
+    }
+])
+
+const App = () => {
   return (
-    <div className="App">
-      <Card />
-    </div>
-  );
+    <>
+        <RouterProvider router={router}/>
+        <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        />
+    </>
+  )
 }
 
-export default App;
+export default App
