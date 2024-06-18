@@ -31,17 +31,19 @@ const Login = () => {
   if(isAuthenticated) return <Navigate to={'/todo'}/>
   
   return (
-    <Card className={styles.formContainer}>
-      <h1>Login</h1>
-      <form>
-        <label htmlFor="email">Email</label>
-        <input type="email" name="email" id="email" value={email} onChange={e => setEmail(e.currentTarget.value)}/>
-        <label htmlFor="password">Password</label>
-        <input type="password" name="password" id="password" value={password} onChange={e => setPassword(e.currentTarget.value)} autoComplete='on password'/>
-        <button type="submit" onClick={handleLogin} disabled={!canLogin}>Login</button>
-      </form>
-      <Link to="/register">Not a user?</Link>
-    </Card>
+    <section className={styles.login}>
+      <Card className={styles.formContainer}>
+        <h1>Login</h1>
+        <form>
+          <label htmlFor="email">Email</label>
+          <input type="email" name="email" id="email" value={email} onChange={e => setEmail(e.currentTarget.value)}/>
+          <label htmlFor="password">Password</label>
+          <input type="password" name="password" id="password" value={password} onChange={e => setPassword(e.currentTarget.value)} autoComplete='on password'/>
+          <button type="submit" onClick={handleLogin} disabled={!canLogin}>Login</button>
+        </form>
+        <Link to="/register">Not a user?</Link>
+      </Card>
+    </section>
   )
 }
 

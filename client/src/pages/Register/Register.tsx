@@ -45,19 +45,21 @@ const Register = () => {
     }
     if(isAuthenticated) return <Navigate to={'/todo'}/>
     return (
-        <Card>
-            <h1 className={styles.title}>Register</h1>
-            <form>
-                <label htmlFor="email">Email: </label>
-                <input type="email" name="email" id="email" value={userData.email} onChange={handleInputChanged}/>
-                <label htmlFor="userName">Username: </label>
-                <input type="userName" name="userName" id="userName" value={userData.userName} onChange={handleInputChanged}/>
-                <label htmlFor="password">Password: </label>
-                <input type="password" name="password" id="password" value={userData.password} onChange={handleInputChanged} autoComplete='on password'/>
-                <button onClick={handleRegister} disabled={!canSubmit}>Submit</button>
-            </form>
-            <Link to={"/login"}>Already a user?</Link>
-        </Card>
+        <section className={styles.register}>
+            <Card>
+                <h1 className={styles.title}>Register</h1>
+                <form>
+                    <label htmlFor="email">Email: </label>
+                    <input type="email" name="email" id="email" value={userData.email} onChange={handleInputChanged}/>
+                    <label htmlFor="userName">Username: </label>
+                    <input type="userName" name="userName" id="userName" value={userData.userName} onChange={handleInputChanged}/>
+                    <label htmlFor="password">Password: </label>
+                    <input type="password" name="password" id="password" value={userData.password} onChange={handleInputChanged} autoComplete='on password'/>
+                    <button onClick={handleRegister} disabled={!canSubmit}>Submit</button>
+                </form>
+                <Link to={"/login"}>Already a user?</Link>
+            </Card>
+        </section>
     )
 }
 
