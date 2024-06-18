@@ -37,9 +37,9 @@ const Register = () => {
             navigate("/login");
         })
         .catch(err => {
-            const {errors, title} = err.response.data;
+            const {errors} = err.response.data;
             Object.entries(errors).forEach(([key, value]) => {
-                toast.error(`${key}: ${value}`);
+                toast.error(`${value}`);
             })
         });
     }
@@ -53,7 +53,7 @@ const Register = () => {
                 <label htmlFor="userName">Username: </label>
                 <input type="userName" name="userName" id="userName" value={userData.userName} onChange={handleInputChanged}/>
                 <label htmlFor="password">Password: </label>
-                <input type="password" name="password" id="password" value={userData.password} onChange={handleInputChanged}/>
+                <input type="password" name="password" id="password" value={userData.password} onChange={handleInputChanged} autoComplete='on password'/>
                 <button onClick={handleRegister} disabled={!canSubmit}>Submit</button>
             </form>
             <Link to={"/login"}>Already a user?</Link>

@@ -1,6 +1,5 @@
 import React from 'react'
 import Card from '../../components/Card/Card'
-import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setAuthenticated } from '../../app/features/Auth/authSlice'
 import { logout } from '../../services/User/UserService'
