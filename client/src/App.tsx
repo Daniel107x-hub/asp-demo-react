@@ -19,11 +19,11 @@ const router = createBrowserRouter([
         element: <Register/>
     },
     {
-        path:'/todo',
+        path:'/',
         element: <PrivateRoute/>,
         children:[
             {
-                path:'',
+                path:'todo',
                 element:<Todo/>
             }
         ]

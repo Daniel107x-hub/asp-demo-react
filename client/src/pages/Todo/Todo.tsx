@@ -1,5 +1,3 @@
-import React from 'react'
-import Card from '../../components/Card/Card'
 import { useDispatch } from 'react-redux'
 import { setAuthenticated } from '../../app/features/Auth/authSlice'
 import { logout } from '../../services/User/UserService'
@@ -19,10 +17,10 @@ const Todo = (props: Props) => {
   }
 
   return (
-    <Card>
+    <>
       <div>Todo Protected Page</div>
       <button onClick={handleLogout}>Logout</button>
-    </Card>
+    </>
   )
 }
 

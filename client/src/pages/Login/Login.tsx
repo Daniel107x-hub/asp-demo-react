@@ -5,6 +5,7 @@ import { login } from '../../services/User/UserService'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAuthenticated } from '../../app/features/Auth/authSlice'
+import { setUsername } from '../../app/features/User/userSlice'; 
 import { RootState } from '../../app/store'
 import { toast } from 'react-toastify'
 
@@ -21,6 +22,7 @@ const Login = () => {
     .then(response => {
       if(response.status === 200) {
         dispatch(setAuthenticated(true));
+        dispatch(setUsername('username'));
         return navigate('/todo');
       }
     })
