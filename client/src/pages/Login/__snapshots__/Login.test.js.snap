@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`It loads login screen Matches DOM Snapshot 1`] = `
+<DocumentFragment>
+  <section
+    class="login"
+  >
+    <div
+      class="card formContainer"
+    >
+      <h1>
+        Login
+      </h1>
+      <form>
+        <label
+          for="email"
+        >
+          Email
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          value=""
+        />
+        <label
+          for="password"
+        >
+          Password
+        </label>
+        <input
+          autocomplete="on password"
+          id="password"
+          name="password"
+          type="password"
+          value=""
+        />
+        <button
+          disabled=""
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
+      <a
+        href="/register"
+      >
+        Not a user?
+      </a>
+    </div>
+  </section>
+</DocumentFragment>
+`;

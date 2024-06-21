@@ -4,13 +4,16 @@ import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
 import App from './App';
 import { Provider } from 'react-redux';
-import store from './app/store';
-import { persistor } from './app/store';
+import { setupStore} from './app/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import persistStore from 'redux-persist/es/persistStore';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const store = setupStore();
+const persistor = persistStore(store);
 
 root.render(
   <React.StrictMode>
