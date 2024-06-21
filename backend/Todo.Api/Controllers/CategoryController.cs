@@ -8,6 +8,7 @@ namespace Todo.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoryController : ControllerBase
     {
         private readonly TodoContext _context;
@@ -19,7 +20,6 @@ namespace Todo.Api.Controllers
 
         // GET: api/Category
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategory()
         {
             return await _context.Category.ToListAsync();
