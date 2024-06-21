@@ -15,11 +15,13 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-const store = configureStore({
-    reducer: persistedReducer
-});
+export function setupStore(preloadedState?: Partial<RootState>){
+    return configureStore({
+        reducer: persistedReducer
+    });
+}
 
 
-export type RootState = ReturnType<typeof store.getState>;
-export const persistor = persistStore(store);
-export default store;
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore['dispatch'];
