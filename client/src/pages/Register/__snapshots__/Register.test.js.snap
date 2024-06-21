@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loads the resgistration screen Matches DOM snapshot 1`] = `
+<DocumentFragment>
+  <section
+    class="register"
+  >
+    <div
+      class="card undefined"
+    >
+      <h1
+        class="title"
+      >
+        Register
+      </h1>
+      <form>
+        <label
+          for="email"
+        >
+          Email: 
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          value=""
+        />
+        <label
+          for="userName"
+        >
+          Username: 
+        </label>
+        <input
+          id="userName"
+          name="userName"
+          type="userName"
+          value=""
+        />
+        <label
+          for="password"
+        >
+          Password: 
+        </label>
+        <input
+          autocomplete="on password"
+          id="password"
+          name="password"
+          type="password"
+          value=""
+        />
+        <button
+          disabled=""
+        >
+          Submit
+        </button>
+      </form>
+      <a
+        href="/login"
+      >
+        Already a user?
+      </a>
+    </div>
+  </section>
+</DocumentFragment>
+`;
