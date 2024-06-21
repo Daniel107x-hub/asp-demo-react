@@ -29,6 +29,7 @@ const Login = () => {
   }
   if(isAuthenticated) return <Navigate to={'/todo'}/>
   
+  const canLogin = email && password;
   return (
     <Card className={styles.formContainer}>
       <h1>Login</h1>
@@ -37,7 +38,7 @@ const Login = () => {
         <input type="email" name="email" id="email" value={email} onChange={e => setEmail(e.currentTarget.value)}/>
         <label htmlFor="password">Password</label>
         <input type="password" name="password" id="password" value={password} onChange={e => setPassword(e.currentTarget.value)} autoComplete='on password'/>
-        <button type="submit" onClick={handleLogin}>Login</button>
+        <button type="submit" onClick={handleLogin} disabled={!canLogin}>Submit</button>
       </form>
       <Link to="/register">Not a user?</Link>
     </Card>
