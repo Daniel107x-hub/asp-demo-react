@@ -70,7 +70,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Add logout endpoint
-app.MapPost("/logout", async (SignInManager<IdentityUser> signInManager, [FromBody] object empty) =>
+app.MapPost("/account/logout", async (SignInManager<IdentityUser> signInManager, [FromBody] object empty) =>
     {
         if (empty != null)
         {
@@ -89,6 +89,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapIdentityApi<IdentityUser>();
+app.MapGroup("/account").MapIdentityApi<IdentityUser>();
 
 app.Run();
