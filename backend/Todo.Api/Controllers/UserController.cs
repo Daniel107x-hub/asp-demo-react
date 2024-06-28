@@ -27,7 +27,6 @@ namespace Todo.Api.Controllers
             // Convert the db tasks to dtos
             var user = await _userManager.GetUserAsync(User);
             if(user == null) return NoContent();
-            var tasks = await _context.TaskItem.Where(t => t.userId == user.Id).FirstAsync();
             return new UserDTO(){
                 userName = user.UserName,
                 email = user.Email,

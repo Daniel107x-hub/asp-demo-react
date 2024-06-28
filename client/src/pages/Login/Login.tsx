@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import styles from './Login.module.css'
 import Card from '../../components/Card/Card'
-import { login } from '../../services/User/UserService'
+import { getUser, login } from '../../services/User/UserService'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAuthenticated } from '../../app/features/Auth/authSlice'
@@ -18,10 +18,12 @@ const Login = () => {
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     login(email, password)
-    .then(response => {
+    .then(async response => {
       if(response.status === 200) {
         dispatch(setAuthenticated(true));
-        dispatch(setUsername('username'));
+        const userData = await getUser();
+        const { userName } = userData.data;
+        dispatch(setUsername(userName));
         return navigate('/todo');
       }
     })
