@@ -1,3 +1,4 @@
+using Azure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
@@ -70,7 +71,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Add logout endpoint
-app.MapPost("/account/logout", async (SignInManager<IdentityUser> signInManager, [FromBody] object empty) =>
+app.MapPost("api/account/logout", async (SignInManager<IdentityUser> signInManager, [FromBody] object empty) =>
     {
         if (empty != null)
         {
@@ -89,6 +90,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapGroup("/account").MapIdentityApi<IdentityUser>();
+app.MapGroup("/api/account").MapIdentityApi<IdentityUser>();
 
 app.Run();
