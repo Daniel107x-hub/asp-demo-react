@@ -1,36 +1,40 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import styles from './Login.module.css'
 import Card from '../../components/Card/Card'
-import { getUser, login } from '../../services/User/UserService'
+import { useLoginMutation } from '../../services/User/UserService'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { setAuthenticated } from '../../app/features/Auth/authSlice'
-import { setUsername } from '../../app/features/User/userSlice'; 
+import { AppDispatch, useAppDispatch } from '../../app/store'
 import { RootState } from '../../app/store'
 import { toast } from 'react-toastify'
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
+  const [login, loginResult] = useLoginMutation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const isAuthenticated = useSelector((state:RootState) => state.auth.isAuthenticated);
+
+  useEffect(() => {
+    if(loginResult.isUninitialized) return;
+    if(loginResult.isError) {
+      toast.error('Unable to login with the provided credentials :(');
+      return;
+    }
+    if(loginResult.isSuccess){
+      toast.success('Login successful');
+      dispatch(setAuthenticated(true));
+      navigate('/todo');
+    }
+  }, [loginResult])
+
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    login(email, password)
-    .then(async response => {
-      if(response.status === 200) {
-        dispatch(setAuthenticated(true));
-        const userData = await getUser();
-        const { userName } = userData.data;
-        dispatch(setUsername(userName));
-        return navigate('/todo');
-      }
-    })
-    .catch(error => {
-      toast.error('Unable to login with the provided credentials :(');
-    });
+    login({email, password});
   }
+
   if(isAuthenticated) return <Navigate to={'/todo'}/>
   
   const canLogin = email && password;

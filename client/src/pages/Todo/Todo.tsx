@@ -1,19 +1,26 @@
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setAuthenticated } from '../../app/features/Auth/authSlice'
-import { logout } from '../../services/User/UserService'
+import { useLogoutMutation } from '../../services/User/UserService'
+import { splitApi } from '../../services/SplitApi'
+import { setUsername } from '../../app/features/User/userSlice'
 
 type Props = {}
 
 const Todo = (props: Props) => {
   const dispatch = useDispatch();
-  const handleLogout = () => {
-    logout()
-    .then(response => {
+  const [ logout, {isLoading, isSuccess} ] = useLogoutMutation();
+
+  useEffect(() => {
+    if(isSuccess) {
       dispatch(setAuthenticated(false));
-    })
-    .catch(err => {
-      console.log(err);
-    })
+      dispatch(setUsername(''));
+      dispatch(splitApi.util.resetApiState());
+    }
+  }, [isLoading])
+
+  const handleLogout = () => {
+    logout();
   }
 
   return (

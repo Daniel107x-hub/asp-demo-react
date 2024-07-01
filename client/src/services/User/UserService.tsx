@@ -1,32 +1,45 @@
-import axios from "axios";
+import { RegistrationRequest, User } from "../../types";
+import { splitApi } from "../SplitApi";
 
-axios.defaults.withCredentials = true;
+export const userApi = splitApi.injectEndpoints({
+    endpoints: (builder) => ({
+        login: builder.mutation<User, {email: string, password: string}>({
+            query: ({email, password}) => ({
+                url: 'account/login',
+                method: 'POST',
+                body: { email, password },
+                params: {
+                    useCookies: true,
+                    useSessionCookies: true
+                }
+            })
+        }),
+        register: builder.mutation<User, RegistrationRequest>({
+            query: (request:RegistrationRequest) => ({
+                url: 'account/register',
+                method: 'POST',
+                body: request
+            })
+        }),
+        getUser: builder.query<User, void>({
+            query: () => ({
+                url: 'account/user',
+                method: 'GET',
+            })    
+        }),
+        logout: builder.mutation<User, void>({
+            query: () => ({
+                url: 'account/logout',
+                method: 'POST',
+                body: {}
+            })
+        })
+    })
+})
 
-const login = (email: String, password: String) => {
-    return axios.post('https://localhost:5105/account/login?useCookies=true&useSessionCookies=true', { email, password, withCredentials:false});
-}
-
-const logout = () => {
-    return axios.post('https://localhost:5105/account/logout', {});
-}
-
-const register  = (request: RegisterRequest) => {
-    return axios.post('https://localhost:5105/account/register', request);
-}
-
-const verifyAuthentication = async () => {
-    return axios.get('https://localhost:5105/account/manage/info')
-}
-
-type RegisterRequest = {
-    email: string,
-    userName: string,
-    password: string
-}
-
-export {
-    login,
-    register,
-    verifyAuthentication,
-    logout
-};
+export const { 
+    useLoginMutation,
+    useLogoutMutation,
+    useGetUserQuery, 
+    useRegisterMutation 
+} = userApi;

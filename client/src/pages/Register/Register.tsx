@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Register.module.css'
 import Card from '../../components/Card/Card'
-import { register } from '../../services/User/UserService'
 import { toast } from 'react-toastify'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../app/store'
+import { useRegisterMutation } from '../../services/User/UserService'
 
 const Register = () => {
     const navigate = useNavigate();
@@ -14,6 +14,7 @@ const Register = () => {
         userName: '',
         password: ''
     });
+    const [register, registerResult] = useRegisterMutation();
 
     const isAuthenticated = useSelector((state:RootState) => state.auth.isAuthenticated);
 
@@ -31,18 +32,20 @@ const Register = () => {
 
     const handleRegister = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        register(userData)
-        .then(response => {
-            toast.success('Sucessfully registered!');
-            navigate("/login");
-        })
-        .catch(err => {
-            const {errors} = err.response.data;
-            Object.entries(errors).forEach(([key, value]) => {
-                toast.error(`${value}`);
-            })
-        });
+        register(userData);
     }
+
+    useEffect(() => {
+        const {isError, isUninitialized} = registerResult;
+        if(isUninitialized) return;
+        if(isError){
+            toast.error('Unable to register with the provided credentials :(');
+            return;
+        }
+        toast.success('Sucessfully registered!');
+        navigate('/login');
+    }, [registerResult])
+
     if(isAuthenticated) return <Navigate to={'/todo'}/>
     return (
         <section className={styles.register}>

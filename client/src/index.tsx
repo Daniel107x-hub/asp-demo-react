@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { setupStore} from './app/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import persistStore from 'redux-persist/es/persistStore';
+import { setupListeners } from '@reduxjs/toolkit/query';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,6 +15,7 @@ const root = ReactDOM.createRoot(
 
 const store = setupStore();
 const persistor = persistStore(store);
+setupListeners(store.dispatch);
 
 root.render(
   <React.StrictMode>
